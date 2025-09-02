@@ -1,0 +1,7 @@
+TEAM_ID=
+
+PRODUCT_NAME=MonkeyAssistant
+PRODUCT_BUNDLE_IDENTIFIER=ap.droidsoft.monkeyassistant.MonkeyAssistant$(TEAM_ID)
+
+CURRENT_PROJECT_VERSION=1
+MARKETING_VERSION=1.0
