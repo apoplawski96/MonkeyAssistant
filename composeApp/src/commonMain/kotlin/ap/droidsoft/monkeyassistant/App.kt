@@ -26,7 +26,9 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 @Preview
-fun App(viewModel: RoutinesScreenViewModel = koinViewModel()) {
+fun App(
+    viewModel: RoutinesScreenViewModel = koinViewModel()
+) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
