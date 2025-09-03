@@ -1,0 +1,19 @@
+CREATE TABLE routine (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    routine_interval TEXT NOT NULL -- store enum as string (Daily, Weekly, Monthly, etc.)
+);
+
+routineById:
+SELECT * FROM routine WHERE id = ?;
+
+allRoutines:
+SELECT * FROM routine;
+
+insertRoutine:
+INSERT INTO routine(name, description, routine_interval)
+VALUES (?, ?, ?);
+
+deleteRoutine:
+DELETE FROM routine WHERE id = ?;

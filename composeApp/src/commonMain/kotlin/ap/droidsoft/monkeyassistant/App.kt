@@ -13,15 +13,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import ap.droidsoft.monkeyassistant.presentation.RoutinesScreenViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 import monkeyassistant.composeapp.generated.resources.Res
 import monkeyassistant.composeapp.generated.resources.compose_multiplatform
+import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 @Preview
-fun App() {
+fun App(viewModel: RoutinesScreenViewModel = koinViewModel()) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
         Column(
@@ -42,6 +48,7 @@ fun App() {
                 ) {
                     Image(painterResource(Res.drawable.compose_multiplatform), null)
                     Text("Compose: $greeting")
+                    Text("Data from data layer: ${state.testRoutine}, message: ${state.testMessage}")
                 }
             }
         }
