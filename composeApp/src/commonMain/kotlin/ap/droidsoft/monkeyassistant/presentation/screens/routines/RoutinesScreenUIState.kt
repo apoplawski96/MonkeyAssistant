@@ -8,6 +8,7 @@ data class RoutinesScreenUIState(
     val testMessage: String? = null,
     val testRoutine: Routine? = null,
     val sections: List<RoutinesSection>? = null,
+    val isLoading: Boolean = true,
 )
 
 data class RoutinesSection(

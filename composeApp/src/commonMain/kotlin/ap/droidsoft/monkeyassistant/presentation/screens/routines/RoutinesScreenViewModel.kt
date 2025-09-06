@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ap.droidsoft.monkeyassistant.data.repository.RoutinesRepository
 import ap.droidsoft.monkeyassistant.getPlatform
+import ap.droidsoft.monkeyassistant.presentation.model.RoutineUIModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -19,5 +20,13 @@ class RoutinesScreenViewModel(
             testMessage = getPlatform().name,
             testRoutine = routinesRepository.getTestRoutine(),
         )
+    }
+
+    fun toggleRoutineCompleted(routine: RoutineUIModel) {
+        if (routine.isCompleted) {
+
+        } else {
+
+        }
     }
 }

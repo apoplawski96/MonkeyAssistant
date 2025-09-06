@@ -48,6 +48,7 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.koin.compose.viewmodel.navigation)
             implementation(libs.androidx.compose.navigation)
+            implementation(libs.sqldelight.coroutines)
         }
         androidMain.dependencies {
             implementation(compose.preview)
