@@ -16,10 +16,3 @@ fun Routine_completion.toDomainModel() = RoutineCompletion(
     routineId = routine_id.toInt(),
     completedOn = LocalDate.parse(completed_on),
 )
-
-fun ap.droidsoft.monkeyassistant.domain.model.Routine.toDbModel() = Routine(
-    id = id.toLong(),
-    name = name,
-    description = description,
-    routine_interval = routineInterval.name,
-)
