@@ -1,5 +1,6 @@
 package ap.droidsoft.monkeyassistant.presentation.screens.routines
 
+import ap.droidsoft.monkeyassistant.data.model.RoutineWithStatus
 import ap.droidsoft.monkeyassistant.domain.model.Routine
 import ap.droidsoft.monkeyassistant.domain.model.RoutineInterval
 import ap.droidsoft.monkeyassistant.presentation.model.RoutineUIModel
@@ -13,5 +14,5 @@ data class RoutinesScreenUIState(
 
 data class RoutinesSection(
     val interval: RoutineInterval,
-    val routines: List<RoutineUIModel>,
+    val routines: List<RoutineWithStatus>,
 )

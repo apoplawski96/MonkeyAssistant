@@ -1,9 +1,15 @@
 package ap.droidsoft.monkeyassistant.data.cache
 
+import ap.droidsoft.monkeyassistant.DbDispatcher
 import ap.droidsoft.monkeyassistant.cache.Database
 import ap.droidsoft.monkeyassistant.cache.Routine_completion
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 
-internal class RoutinesCompletionDatabase(private val database: Database) {
+class CompletionDatabase(private val database: Database) {
+
+    internal fun getAllCompletions() =
+        database.completionQueries.allCompletions().asFlow().mapToList(DbDispatcher)
 
     internal fun getCompletionByRoutine(routineId: Int) =
         database.completionQueries.completionsByRoutine(routineId.toLong())

@@ -1,12 +1,15 @@
 package ap.droidsoft.monkeyassistant.data.cache
 
+import ap.droidsoft.monkeyassistant.DbDispatcher
 import ap.droidsoft.monkeyassistant.cache.Database
 import ap.droidsoft.monkeyassistant.cache.Routine
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 
 class RoutinesDatabase(private val database: Database) {
 
-    internal fun getAllRoutines(): List<Routine> =
-        database.routineQueries.allRoutines().executeAsList()
+    internal fun getAllRoutines() =
+        database.routineQueries.allRoutines().asFlow().mapToList(DbDispatcher)
 
     internal fun getRoutineById(id: Int): Routine? =
         database.routineQueries.routineById(id.toLong()).executeAsOneOrNull()

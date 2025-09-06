@@ -1,5 +1,6 @@
 package ap.droidsoft.monkeyassistant
 
+import kotlinx.coroutines.Dispatchers
 import platform.UIKit.UIDevice
 
 class IOSPlatform: Platform {
@@ -7,3 +8,5 @@ class IOSPlatform: Platform {
 }
 
 actual fun getPlatform(): Platform = IOSPlatform()
+
+actual val DbDispatcher = Dispatchers.Default

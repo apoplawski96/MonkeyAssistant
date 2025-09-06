@@ -1,8 +1,12 @@
 CREATE TABLE routine_completion (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     routine_id INTEGER NOT NULL REFERENCES routine(id) ON DELETE CASCADE,
-    completed_on TEXT NOT NULL -- store LocalDate as ISO string (e.g., "2025-09-02")
+    completed_on TEXT NOT NULL, -- store LocalDate as ISO string (e.g., "2025-09-02")
+    icon_key TEXT
 );
+
+allCompletions:
+    SELECT * FROM routine_completion;
 
 completionsByRoutine:
 SELECT * FROM routine_completion WHERE routine_id = ?;
