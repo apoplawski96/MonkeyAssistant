@@ -13,4 +13,7 @@ val RoutineIcon.resourceId: String
         append("_24px")
     }
 
+val RoutineIcon.dbKey: String
+    get() = name
+
 //Image(painterResource(Res.allDrawableResources["compose_multiplatform"]!!), null)

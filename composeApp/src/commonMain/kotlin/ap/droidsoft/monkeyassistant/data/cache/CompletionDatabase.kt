@@ -17,10 +17,10 @@ class CompletionDatabase(private val database: Database) {
     internal fun getCompletionsByDate(completedOnDate: String) =
         database.completionQueries.completionsByDate(completedOnDate)
 
-    internal fun insertCompletion(completion: Routine_completion) =
+    internal fun insertCompletion(routineId: Int, completedOnDate: String) =
         database.completionQueries.insertCompletion(
-            completion.routine_id,
-            completion.completed_on,
+            routineId.toLong(),
+            completedOnDate,
         )
 
     internal fun deleteCompletion(id: Int) =

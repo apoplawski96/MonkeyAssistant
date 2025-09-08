@@ -2,7 +2,6 @@ package ap.droidsoft.monkeyassistant.presentation.screens.routines
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import ap.droidsoft.monkeyassistant.data.repository.RoutinesRepository
 import ap.droidsoft.monkeyassistant.getPlatform
 import ap.droidsoft.monkeyassistant.presentation.model.RoutineUIModel
@@ -16,9 +15,11 @@ class RoutinesScreenViewModel(
 ) : ViewModel() {
 
     private val _routinesUi = routinesRepository
-        .getRoutinesWithCompletions()
+        .getRoutinesWithCompletionStatus()
         .stateIn(
-            viewModelScope, SharingStarted.Lazily, emptyList()
+            viewModelScope,
+            SharingStarted.Lazily,
+            emptyList()
         )
 
     private val _state = MutableStateFlow(RoutinesScreenUIState(""))
@@ -32,10 +33,6 @@ class RoutinesScreenViewModel(
     }
 
     fun toggleRoutineCompleted(routine: RoutineUIModel) {
-        if (routine.isCompleted) {
-
-        } else {
-
-        }
+        routinesRepository.toggleRoutineCompleted(routine.id, routine.isCompleted)
     }
 }
