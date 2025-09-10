@@ -3,6 +3,8 @@ package ap.droidsoft.monkeyassistant.presentation.screens.create
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ap.droidsoft.monkeyassistant.data.repository.RoutinesRepository
+import ap.droidsoft.monkeyassistant.domain.model.RoutineInterval
+import ap.droidsoft.monkeyassistant.presentation.model.RoutineIcon
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,6 +22,22 @@ class CreateRoutineViewModel(private val routinesRepository: RoutinesRepository)
 
     val isFormValid = inputs.map { it.nameInput.isNotBlank() }
         .stateIn(viewModelScope, SharingStarted.Lazily, false)
+
+    fun updateName(name: String) {
+        _inputs.value = _inputs.value.copy(nameInput = name)
+    }
+
+    fun updateDescription(description: String) {
+        _inputs.value = _inputs.value.copy(descriptionInput = description)
+    }
+
+    fun updateInterval(interval: RoutineInterval) {
+        _inputs.value = _inputs.value.copy(intervalInput = interval)
+    }
+
+    fun updateIcon(icon: RoutineIcon) {
+        _inputs.value = _inputs.value.copy(iconInput = icon)
+    }
 
     fun createRoutine() {
         if (isFormValid.value.not()) return
