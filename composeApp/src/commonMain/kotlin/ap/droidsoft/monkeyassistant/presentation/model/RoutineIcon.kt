@@ -1,7 +1,7 @@
 package ap.droidsoft.monkeyassistant.presentation.model
 
 enum class RoutineIcon {
-    Exercise, SportsKabaddi, Default
+    Exercise, SportsKabaddi, AccountBalance, AttachMoney, GarageMoney, RequestQuote, ShoppingCart, Default
 }
 
 val RoutineIcon.resourceId: String

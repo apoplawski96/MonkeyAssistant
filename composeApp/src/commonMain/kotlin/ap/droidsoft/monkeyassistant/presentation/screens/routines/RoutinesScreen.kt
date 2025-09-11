@@ -34,6 +34,7 @@ import ap.droidsoft.monkeyassistant.presentation.layouts.VerticalSpacer
 import ap.droidsoft.monkeyassistant.presentation.model.resourceId
 import ap.droidsoft.monkeyassistant.presentation.util.DarkThemePreview
 import monkeyassistant.composeapp.generated.resources.Res
+import monkeyassistant.composeapp.generated.resources.add_2_24px
 import monkeyassistant.composeapp.generated.resources.allDrawableResources
 import monkeyassistant.composeapp.generated.resources.default_24px
 import org.jetbrains.compose.resources.painterResource
@@ -73,7 +74,7 @@ private fun RoutinesLayout(
         },
         floatingActionButton = {
             FloatingActionButton(onClick = navigateToCreateRoutine, shape = CircleShape) {
-                Icon(painter = painterResource(Res.drawable.default_24px), "Add routine")
+                Icon(painter = painterResource(Res.drawable.add_2_24px), "Add routine")
             }
         }
     ) { innerPadding ->

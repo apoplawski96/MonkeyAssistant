@@ -37,6 +37,7 @@ import ap.droidsoft.monkeyassistant.presentation.model.RoutineIcon
 import monkeyassistant.composeapp.generated.resources.Res
 import monkeyassistant.composeapp.generated.resources.allDrawableResources
 import ap.droidsoft.monkeyassistant.presentation.model.resourceId
+import monkeyassistant.composeapp.generated.resources.arrow_back_24px
 import monkeyassistant.composeapp.generated.resources.menu
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -85,12 +86,12 @@ private fun CreateRoutineLayout(
         topBar = {
             TopAppBar(
                 title = {
-                    Text("Create Routine", style = MaterialTheme.typography.headlineSmall)
+                    Text("Create routine", style = MaterialTheme.typography.headlineSmall)
                 },
                 navigationIcon = {
                     IconButton(onClick = navigateBack) {
                         Icon(
-                            painter = painterResource(Res.drawable.menu),
+                            painter = painterResource(Res.drawable.arrow_back_24px),
                             "Back navigation",
                         )
                     }
