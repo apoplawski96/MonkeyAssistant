@@ -5,6 +5,7 @@ import ap.droidsoft.monkeyassistant.data.cache.RoutinesDatabase
 import ap.droidsoft.monkeyassistant.data.model.RoutineHistory
 import ap.droidsoft.monkeyassistant.data.model.RoutineWithStatus
 import ap.droidsoft.monkeyassistant.data.toDomainModel
+import ap.droidsoft.monkeyassistant.domain.model.RoutineCompletion
 import ap.droidsoft.monkeyassistant.domain.model.RoutineInterval
 import ap.droidsoft.monkeyassistant.presentation.model.RoutineIcon
 import ap.droidsoft.monkeyassistant.presentation.model.dbKey
@@ -22,11 +23,11 @@ class RoutinesRepository(
         completionsDb.getAllCompletions(),
     ) { routines, completions ->
         routines.map { routine ->
-            val hasCompleted = completions.any { completion ->
+            val completion = completions.find { completion ->
                 completion.routine_id == routine.id
-//                        && completion.completed_on == "TODAY" // TODO
+//                        && completion.completed_on == "TODAY"
             }
-            RoutineWithStatus(routine.toDomainModel(), hasCompleted)
+            RoutineWithStatus(routine.toDomainModel(), completion?.toDomainModel())
         }
     }
 
@@ -42,15 +43,17 @@ class RoutinesRepository(
         }
     }
 
-    fun toggleRoutineCompleted(id: Int, isCompleted: Boolean) {
-        if (isCompleted)
-            completionsDb.insertCompletion(id, dateTimeRepository.today())
-        else
-            completionsDb.deleteCompletion(id)
+    fun toggleRoutineCompleted(routineWithStatus: RoutineWithStatus) {
+        if (routineWithStatus.routineCompletion != null) {
+            completionsDb.deleteCompletion(routineWithStatus.routineCompletion.id)
+        } else {
+            completionsDb.insertCompletion(routineWithStatus.routine.id, dateTimeRepository.today())
+        }
     }
 
-    suspend fun createRoutine(name: String, description: String, interval: RoutineInterval, icon: RoutineIcon) =
+    suspend fun createRoutine(name: String, description: String, interval: RoutineInterval, icon: RoutineIcon) {
         routinesDb.insertRoutine(name, description, interval.name, icon.dbKey)
+    }
 
     suspend fun deleteRoutine(id: Int) = routinesDb.deleteRoutine(id)
 

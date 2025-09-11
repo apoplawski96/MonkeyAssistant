@@ -32,10 +32,12 @@ class CreateRoutineViewModel(private val routinesRepository: RoutinesRepository)
     }
 
     fun updateInterval(interval: RoutineInterval) {
+        println("2137 - update interval: $interval")
         _inputs.value = _inputs.value.copy(intervalInput = interval)
     }
 
     fun updateIcon(icon: RoutineIcon) {
+        println("2137 - update icon: $icon")
         _inputs.value = _inputs.value.copy(iconInput = icon)
     }
 

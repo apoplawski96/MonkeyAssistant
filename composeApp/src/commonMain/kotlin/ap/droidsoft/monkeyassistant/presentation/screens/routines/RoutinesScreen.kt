@@ -1,6 +1,7 @@
 package ap.droidsoft.monkeyassistant.presentation.screens.routines
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,12 +17,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import ap.droidsoft.monkeyassistant.Routes
 import ap.droidsoft.monkeyassistant.data.model.RoutineWithStatus
 import ap.droidsoft.monkeyassistant.domain.model.Routine
@@ -36,12 +38,18 @@ import monkeyassistant.composeapp.generated.resources.allDrawableResources
 import monkeyassistant.composeapp.generated.resources.default_24px
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun RoutinesScreen(navController: NavController) {
+fun RoutinesScreen(
+    navController: NavController,
+    viewModel: RoutinesScreenViewModel = koinViewModel(),
+) {
+    val routinesSections by viewModel.routinesSections.collectAsStateWithLifecycle()
+
     RoutinesLayout(
-        previewState,
-        onCheckboxClick = {},
+        onCheckboxClick = viewModel::toggleRoutineCompleted,
+        routinesSections = routinesSections,
         navigateToCreateRoutine = {
             navController.navigate(Routes.CreateRoutine)
         }
@@ -51,8 +59,8 @@ fun RoutinesScreen(navController: NavController) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun RoutinesLayout(
-    state: RoutinesScreenUIState,
-    onCheckboxClick: (Boolean) -> Unit,
+    routinesSections: List<RoutinesSection>,
+    onCheckboxClick: (RoutineWithStatus) -> Unit,
     navigateToCreateRoutine: () -> Unit,
 ) {
     Scaffold(
@@ -70,15 +78,14 @@ private fun RoutinesLayout(
         }
     ) { innerPadding ->
         Column(Modifier.fillMaxSize().padding(16.dp).padding(innerPadding)) {
-            // test
-//            RoutineIcon.entries.forEach {
-//                val resource = Res.allDrawableResources[it.resourceId]
-//                resource?.let { res ->
-//                    Image(painterResource(res), "test icon")
-//                }
-//            }
-            state.sections?.forEach { section ->
-                RoutinesSection(section, onCheckboxClick)
+            if (routinesSections.isEmpty()) {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text("No routines created yet.", style = MaterialTheme.typography.bodyMedium)
+                }
+            } else {
+                routinesSections.forEach { section ->
+                    RoutinesSection(section, onCheckboxClick)
+                }
             }
         }
     }
@@ -87,7 +94,7 @@ private fun RoutinesLayout(
 @Composable
 private fun RoutinesSection(
     section: RoutinesSection,
-    onCheckboxClick: (Boolean) -> Unit,
+    onCheckboxClick: (RoutineWithStatus) -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(section.interval.name, style = MaterialTheme.typography.headlineMedium)
@@ -102,7 +109,7 @@ private fun RoutinesSection(
 @Composable
 private fun RoutineCell(
     model: RoutineWithStatus,
-    onCheckboxClick: (Boolean) -> Unit,
+    onCheckboxClick: (RoutineWithStatus) -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -117,25 +124,32 @@ private fun RoutineCell(
                 Text("11:00 AM", style = MaterialTheme.typography.bodyMedium.copy(color = Color.White.copy(alpha = 0.5f)))
             }
         }
-        Checkbox(model.hasCompleted, onCheckedChange = onCheckboxClick)
+        Checkbox(model.hasCompleted, onCheckedChange = { onCheckboxClick.invoke(model) })
     }
 }
 
-private val previewState = RoutinesScreenUIState(
-    sections = listOf(
-        RoutinesSection(
-            interval = RoutineInterval.Daily,
-            routines = listOf(
-                RoutineWithStatus(routine = Routine(1, "Supplementation"), hasCompleted = true),
-                RoutineWithStatus(routine = Routine(2, "Meditation"), hasCompleted = true),
-                RoutineWithStatus(routine = Routine(3, "Workout"), hasCompleted = true),
-            )
-        )
+private val previewSections = listOf(
+    RoutinesSection(
+        interval = RoutineInterval.Daily,
+        routines = emptyList()
     )
 )
+
+//private val previewState = RoutinesScreenUIState(
+//    sections = listOf(
+//        RoutinesSection(
+//            interval = RoutineInterval.Daily,
+//            routines = listOf(
+//                RoutineWithStatus(routine = Routine(1, "Supplementation"), hasCompleted = true),
+//                RoutineWithStatus(routine = Routine(2, "Meditation"), hasCompleted = true),
+//                RoutineWithStatus(routine = Routine(3, "Workout"), hasCompleted = true),
+//            )
+//        )
+//    )
+//)
 
 @Preview
 @Composable
 private fun Preview() = DarkThemePreview {
-    RoutinesLayout(state = previewState, onCheckboxClick = {}, navigateToCreateRoutine = {})
+    RoutinesLayout(onCheckboxClick = {}, navigateToCreateRoutine = {}, routinesSections = previewSections)
 }

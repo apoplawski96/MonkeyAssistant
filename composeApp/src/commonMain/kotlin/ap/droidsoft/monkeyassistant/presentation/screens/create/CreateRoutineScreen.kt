@@ -6,10 +6,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -34,6 +37,7 @@ import ap.droidsoft.monkeyassistant.presentation.model.RoutineIcon
 import monkeyassistant.composeapp.generated.resources.Res
 import monkeyassistant.composeapp.generated.resources.allDrawableResources
 import ap.droidsoft.monkeyassistant.presentation.model.resourceId
+import monkeyassistant.composeapp.generated.resources.menu
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -60,7 +64,8 @@ fun CreateRoutineScreen(
         onDescriptionChanged = viewModel::updateDescription,
         onIntervalChanged = viewModel::updateInterval,
         onIconChanged = viewModel::updateIcon,
-        onCreateClicked = viewModel::createRoutine
+        onCreateClicked = viewModel::createRoutine,
+        navigateBack = { navController.popBackStack() }
     )
 }
 
@@ -73,13 +78,22 @@ private fun CreateRoutineLayout(
     onDescriptionChanged: (String) -> Unit,
     onIntervalChanged: (RoutineInterval) -> Unit,
     onIconChanged: (RoutineIcon) -> Unit,
-    onCreateClicked: () -> Unit
+    onCreateClicked: () -> Unit,
+    navigateBack: () -> Unit = {},
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text("Create Routine", style = MaterialTheme.typography.headlineSmall)
+                },
+                navigationIcon = {
+                    IconButton(onClick = navigateBack) {
+                        Icon(
+                            painter = painterResource(Res.drawable.menu),
+                            "Back navigation",
+                        )
+                    }
                 }
             )
         }
